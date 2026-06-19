@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Équipes</h1>
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Catégorie</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (equipe of equipes(); track equipe.idEquipe) {
+          <tr>
+            <td>{{ equipe.nom }}</td>
+            <td>{{ equipe.categorie }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

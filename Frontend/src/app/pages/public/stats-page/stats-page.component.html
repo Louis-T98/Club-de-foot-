@@ -1,0 +1,63 @@
+<div class="container">
+  <h1>Statistiques</h1>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (!loading()) {
+    <div class="layout">
+      <div class="matchs-list">
+        <h2>Sélectionnez un match</h2>
+        @for (match of matchs(); track match.idMatch) {
+          <div
+            class="match-card"
+            [class.selected]="matchSelectionne()?.idMatch === match.idMatch"
+            (click)="selectMatch(match)"
+          >
+            <span class="adversaire">{{ match.adversaire }}</span>
+            <span class="date">{{ match.dateMatch | date:'dd/MM/yyyy' }}</span>
+            <span class="score">{{ match.scorePour }} - {{ match.scoreContre }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="stats-detail">
+        @if (matchSelectionne()) {
+          <h2>Stats — {{ matchSelectionne()?.adversaire }}</h2>
+          @if (statistiques().length === 0) {
+            <p>Aucune statistique pour ce match.</p>
+          }
+          @if (statistiques().length > 0) {
+            <table>
+              <thead>
+                <tr>
+                  <th>Joueur</th>
+                  <th>Buts</th>
+                  <th>Passes</th>
+                  <th>Cartons J.</th>
+                  <th>Cartons R.</th>
+                  <th>Minutes</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (stat of statistiques(); track stat.idJoueur) {
+                  <tr>
+                    <td>{{ stat.nomJoueur }}</td>
+                    <td>{{ stat.buts }}</td>
+                    <td>{{ stat.passesDecisives }}</td>
+                    <td>{{ stat.cartonsJaunes }}</td>
+                    <td>{{ stat.cartonsRouges }}</td>
+                    <td>{{ stat.minutesJouees }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        } @else {
+          <p class="hint">← Cliquez sur un match pour voir les statistiques</p>
+        }
+      </div>
+    </div>
+  }
+</div>

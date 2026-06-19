@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des matchs</h1>
+    <button class="btn-add" (click)="openAddForm()">+ Ajouter un match</button>
+  </div>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (showForm()) {
+    <div class="form-container">
+      <h2>{{ isEditing() ? 'Modifier le match' : 'Ajouter un match' }}</h2>
+      <div class="form">
+        <input
+          type="number"
+          placeholder="ID Équipe"
+          [value]="formData().idEquipe ?? ''"
+          (input)="updateField('idEquipe', +$any($event.target).value)"
+        />
+        <input
+          type="text"
+          placeholder="Adversaire"
+          [value]="formData().adversaire ?? ''"
+          (input)="updateField('adversaire', $any($event.target).value)"
+        />
+        <input
+          type="date"
+          [value]="formData().dateMatch ?? ''"
+          (input)="updateField('dateMatch', $any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="Score pour"
+          [value]="formData().scorePour ?? ''"
+          (input)="updateField('scorePour', +$any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="Score contre"
+          [value]="formData().scoreContre ?? ''"
+          (input)="updateField('scoreContre', +$any($event.target).value)"
+        />
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" (click)="save()">
+          {{ isEditing() ? 'Modifier' : 'Ajouter' }}
+        </button>
+        <button class="btn-cancel" (click)="closeForm()">Annuler</button>
+      </div>
+    </div>
+  }
+
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Adversaire</th>
+          <th>Date</th>
+          <th>Score</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (match of matchs(); track match.idMatch) {
+          <tr>
+            <td>{{ match.adversaire }}</td>
+            <td>{{ match.dateMatch | date:'dd/MM/yyyy' }}</td>
+            <td>{{ match.scorePour }} - {{ match.scoreContre }}</td>
+            <td class="actions">
+              <button class="btn-edit" (click)="openEditForm(match)">Modifier</button>
+              <button class="btn-delete" (click)="delete(match.idMatch)">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des joueurs</h1>
+    <button class="btn-add" (click)="openAddForm()">+ Ajouter un joueur</button>
+  </div>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (showForm()) {
+    <div class="form-container">
+      <h2>{{ isEditing() ? 'Modifier le joueur' : 'Ajouter un joueur' }}</h2>
+      <div class="form">
+        <input
+          type="text"
+          placeholder="Nom"
+          [value]="formData().nom"
+          (input)="updateField('nom', $any($event.target).value)"
+        />
+        <input
+          type="text"
+          placeholder="Prénom"
+          [value]="formData().prenom"
+          (input)="updateField('prenom', $any($event.target).value)"
+        />
+        <input
+          type="text"
+          placeholder="Nationalité"
+          [value]="formData().nationalite ?? ''"
+          (input)="updateField('nationalite', $any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="Numéro de maillot"
+          [value]="formData().numeroMaillot ?? ''"
+          (input)="updateField('numeroMaillot', +$any($event.target).value)"
+        />
+        <input
+          type="date"
+          [value]="formData().dateNaissance ?? ''"
+          (input)="updateField('dateNaissance', $any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="ID Équipe"
+          [value]="formData().idEquipe ?? ''"
+          (input)="updateField('idEquipe', +$any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="ID Poste"
+          [value]="formData().idPoste ?? ''"
+          (input)="updateField('idPoste', +$any($event.target).value)"
+        />
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" (click)="save()">
+          {{ isEditing() ? 'Modifier' : 'Ajouter' }}
+        </button>
+        <button class="btn-cancel" (click)="closeForm()">Annuler</button>
+      </div>
+    </div>
+  }
+
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Nationalité</th>
+          <th>Maillot</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (joueur of joueurs(); track joueur.idJoueur) {
+          <tr>
+            <td>{{ joueur.nom }}</td>
+            <td>{{ joueur.prenom }}</td>
+            <td>{{ joueur.nationalite }}</td>
+            <td>{{ joueur.numeroMaillot }}</td>
+            <td class="actions">
+              <button class="btn-edit" (click)="openEditForm(joueur)">Modifier</button>
+              <button class="btn-delete" (click)="delete(joueur.idJoueur)">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

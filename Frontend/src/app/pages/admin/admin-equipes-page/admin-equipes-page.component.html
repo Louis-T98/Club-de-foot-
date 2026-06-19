@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des équipes</h1>
+    <button class="btn-add" (click)="openAddForm()">+ Ajouter une équipe</button>
+  </div>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (showForm()) {
+    <div class="form-container">
+      <h2>{{ isEditing() ? 'Modifier l\'équipe' : 'Ajouter une équipe' }}</h2>
+      <div class="form">
+        <input
+          type="text"
+          placeholder="Nom"
+          [value]="formData().nom"
+          (input)="updateField('nom', $any($event.target).value)"
+        />
+        <input
+          type="text"
+          placeholder="Catégorie"
+          [value]="formData().categorie ?? ''"
+          (input)="updateField('categorie', $any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="ID Club"
+          [value]="formData().idClub"
+          (input)="updateField('idClub', +$any($event.target).value)"
+        />
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" (click)="save()">
+          {{ isEditing() ? 'Modifier' : 'Ajouter' }}
+        </button>
+        <button class="btn-cancel" (click)="closeForm()">Annuler</button>
+      </div>
+    </div>
+  }
+
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Catégorie</th>
+          <th>ID Club</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (equipe of equipes(); track equipe.idEquipe) {
+          <tr>
+            <td>{{ equipe.nom }}</td>
+            <td>{{ equipe.categorie }}</td>
+            <td>{{ equipe.idClub }}</td>
+            <td class="actions">
+              <button class="btn-edit" (click)="openEditForm(equipe)">Modifier</button>
+              <button class="btn-delete" (click)="delete(equipe.idEquipe)">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

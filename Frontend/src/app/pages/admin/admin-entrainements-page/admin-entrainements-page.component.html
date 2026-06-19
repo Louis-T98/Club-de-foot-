@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des entraînements</h1>
+    <button class="btn-add" (click)="openAddForm()">+ Ajouter un entraînement</button>
+  </div>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (showForm()) {
+    <div class="form-container">
+      <h2>{{ isEditing() ? 'Modifier l\'entraînement' : 'Ajouter un entraînement' }}</h2>
+      <div class="form">
+        <input
+          type="number"
+          placeholder="ID Équipe"
+          [value]="formData().idEquipe ?? ''"
+          (input)="updateField('idEquipe', +$any($event.target).value)"
+        />
+        <input
+          type="date"
+          [value]="formData().dateEntrainement ?? ''"
+          (input)="updateField('dateEntrainement', $any($event.target).value)"
+        />
+        <input
+          type="number"
+          placeholder="Durée (minutes)"
+          [value]="formData().dureeMinutes ?? ''"
+          (input)="updateField('dureeMinutes', +$any($event.target).value)"
+        />
+        <input
+          type="text"
+          placeholder="Thème"
+          [value]="formData().theme ?? ''"
+          (input)="updateField('theme', $any($event.target).value)"
+        />
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" (click)="save()">
+          {{ isEditing() ? 'Modifier' : 'Ajouter' }}
+        </button>
+        <button class="btn-cancel" (click)="closeForm()">Annuler</button>
+      </div>
+    </div>
+  }
+
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Équipe</th>
+          <th>Date</th>
+          <th>Durée</th>
+          <th>Thème</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entrainement of entrainements(); track entrainement.idEntrainement) {
+          <tr>
+            <td>{{ entrainement.nomEquipe }}</td>
+            <td>{{ entrainement.dateEntrainement | date:'dd/MM/yyyy' }}</td>
+            <td>{{ entrainement.dureeMinutes }} min</td>
+            <td>{{ entrainement.theme }}</td>
+            <td class="actions">
+              <button class="btn-edit" (click)="openEditForm(entrainement)">Modifier</button>
+              <button class="btn-delete" (click)="delete(entrainement.idEntrainement)">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

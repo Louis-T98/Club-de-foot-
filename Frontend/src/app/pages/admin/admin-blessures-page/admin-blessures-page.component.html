@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des blessures</h1>
+    <button class="btn-add" (click)="openAddForm()">+ Ajouter une blessure</button>
+  </div>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (showForm()) {
+    <div class="form-container">
+      <h2>{{ isEditing() ? 'Modifier la blessure' : 'Ajouter une blessure' }}</h2>
+      <div class="form">
+        <input
+          type="number"
+          placeholder="ID Joueur"
+          [value]="formData().idJoueur"
+          (input)="updateField('idJoueur', +$any($event.target).value)"
+        />
+        <input
+          type="text"
+          placeholder="Type de blessure"
+          [value]="formData().typeBlessure ?? ''"
+          (input)="updateField('typeBlessure', $any($event.target).value)"
+        />
+        <input
+          type="date"
+          placeholder="Date début"
+          [value]="formData().dateDebut ?? ''"
+          (input)="updateField('dateDebut', $any($event.target).value)"
+        />
+        <input
+          type="date"
+          placeholder="Date fin"
+          [value]="formData().dateFin ?? ''"
+          (input)="updateField('dateFin', $any($event.target).value)"
+        />
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" (click)="save()">
+          {{ isEditing() ? 'Modifier' : 'Ajouter' }}
+        </button>
+        <button class="btn-cancel" (click)="closeForm()">Annuler</button>
+      </div>
+    </div>
+  }
+
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Joueur</th>
+          <th>Type</th>
+          <th>Date début</th>
+          <th>Date fin</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (blessure of blessures(); track blessure.idBlessure) {
+          <tr>
+            <td>{{ blessure.nomJoueur }}</td>
+            <td>{{ blessure.typeBlessure }}</td>
+            <td>{{ blessure.dateDebut | date:'dd/MM/yyyy' }}</td>
+            <td>{{ blessure.dateFin | date:'dd/MM/yyyy' }}</td>
+            <td class="actions">
+              <button class="btn-edit" (click)="openEditForm(blessure)">Modifier</button>
+              <button class="btn-delete" (click)="delete(blessure.idBlessure)">Supprimer</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

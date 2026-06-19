@@ -1,0 +1,40 @@
+<div class="container">
+  <h1>Matchs</h1>
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Adversaire</th>
+          <th>Date</th>
+          <th>Score</th>
+          <th>Résultat</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (match of matchs(); track match.idMatch) {
+          <tr>
+            <td>{{ match.adversaire }}</td>
+            <td>{{ match.dateMatch | date:'dd/MM/yyyy' }}</td>
+            <td>{{ match.scorePour }} - {{ match.scoreContre }}</td>
+            <td>
+              @switch (getResultat(match)) {
+                @case ('victoire') {
+                  <span class="badge victoire">Victoire</span>
+                }
+                @case ('defaite') {
+                  <span class="badge defaite">Défaite</span>
+                }
+                @case ('nul') {
+                  <span class="badge nul">Nul</span>
+                }
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

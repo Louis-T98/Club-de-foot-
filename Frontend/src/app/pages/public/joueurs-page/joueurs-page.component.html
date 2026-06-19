@@ -1,0 +1,34 @@
+<div class="joueurs-container">
+  <h1>Joueurs</h1>
+
+  @if (loading()) {
+    <p>Chargement...</p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  @if (!loading() && !error()) {
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Nationalité</th>
+          <th>Maillot</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (joueur of joueurs(); track joueur.idJoueur) {
+          <tr>
+            <td>{{ joueur.nom }}</td>
+            <td>{{ joueur.prenom }}</td>
+            <td>{{ joueur.nationalite }}</td>
+            <td>{{ joueur.numeroMaillot }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
