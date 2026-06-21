@@ -1,0 +1,85 @@
+# =========================
+# BACKEND — .NET / ASP.NET Core
+# =========================
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Visual Studio cache/options
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+
+# =========================
+# FRONTEND — Angular / Node
+# =========================
+# Compiled output
+/Frontend/dist
+/Frontend/tmp
+/Frontend/out-tsc
+/Frontend/bazel-out
+**/dist
+**/tmp
+**/out-tsc
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular cache
+.angular/cache
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# =========================
+# IDEs and editors
+# =========================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# =========================
+# System files
+# =========================
+.DS_Store
+Thumbs.db
